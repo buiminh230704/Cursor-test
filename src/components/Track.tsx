@@ -8,8 +8,6 @@ export const Track = () => {
 
   useFrame((state) => {
     if (groupRef.current) {
-      // We don't move the track, we move the player.
-      // But we can tile the track based on player position.
       const playerZ = state.camera.position.z - 10;
 
       groupRef.current.children.forEach((child: any) => {
@@ -22,9 +20,7 @@ export const Track = () => {
 
   return (
     <group ref={groupRef}>
-      {/* Segment 1 */}
       <TrackSegment position={[0, -0.5, 0]} />
-      {/* Segment 2 */}
       <TrackSegment position={[0, -0.5, -trackLength]} />
     </group>
   );
@@ -33,6 +29,7 @@ export const Track = () => {
 const TrackSegment = ({ position }: { position: [number, number, number] }) => {
   return (
     <group position={position}>
+      {/* Floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[20, 200]} />
         <meshStandardMaterial
@@ -41,7 +38,23 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
           metalness={0.8}
         />
       </mesh>
-      <gridHelper args={[20, 40, '#ff00ff', '#222']} rotation={[0, 0, 0]} position={[0, 0.01, 0]} />
+
+      {/* Lane Dividers */}
+      <mesh position={[-5, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.1, 200]} />
+        <meshStandardMaterial color="#333" />
+      </mesh>
+      <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.1, 200]} />
+        <meshStandardMaterial color="#333" />
+      </mesh>
+      <mesh position={[5, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.1, 200]} />
+        <meshStandardMaterial color="#333" />
+      </mesh>
+
+      {/* Grid for neon feel */}
+      <gridHelper args={[20, 40, '#ff00ff', '#111']} rotation={[0, 0, 0]} position={[0, 0.01, 0]} />
 
       {/* Side Rails */}
       <mesh position={[-10, 0.5, 0]}>

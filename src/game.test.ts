@@ -6,6 +6,7 @@ describe('GameStore', () => {
     const state = useGameStore.getState();
     expect(state.status).toBe('START');
     expect(state.score).toBe(0);
+    expect(state.lane).toBe(1);
   });
 
   it('should change status to PLAYING when startGame is called', () => {
@@ -14,9 +15,17 @@ describe('GameStore', () => {
     expect(useGameStore.getState().status).toBe('PLAYING');
   });
 
-  it('should increment score', () => {
-    const { incrementScore } = useGameStore.getState();
-    incrementScore(10);
-    expect(useGameStore.getState().score).toBe(10);
+  it('should change lane', () => {
+    const { setLane } = useGameStore.getState();
+    setLane(2);
+    expect(useGameStore.getState().lane).toBe(2);
+    setLane(5); // should be clamped
+    expect(useGameStore.getState().lane).toBe(3);
+  });
+
+  it('should set jumping state', () => {
+    const { setJumping } = useGameStore.getState();
+    setJumping(true);
+    expect(useGameStore.getState().isJumping).toBe(true);
   });
 });

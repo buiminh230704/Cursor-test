@@ -8,6 +8,7 @@ import { Effects } from './components/Effects';
 import { MainMenu } from './components/UI/MainMenu';
 import { HUD } from './components/UI/HUD';
 import { GameOver } from './components/UI/GameOver';
+import { AudioController } from './components/AudioController';
 import { Loader } from '@react-three/drei';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       </Suspense>
 
       <Loader />
+      <AudioController />
       <MainMenu />
       <HUD />
       <GameOver />
