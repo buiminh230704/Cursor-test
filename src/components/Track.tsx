@@ -34,36 +34,36 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
         <planeGeometry args={[20, 200]} />
         <meshStandardMaterial
           color="#050505"
-          roughness={0.1}
-          metalness={0.8}
+          roughness={0.05}
+          metalness={0.9}
         />
       </mesh>
 
-      {/* Lane Dividers */}
+      {/* Lane Dividers - Subtle Glow */}
       <mesh position={[-5, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#333" />
+        <planeGeometry args={[0.05, 200]} />
+        <meshStandardMaterial color="#111" emissive="#0044ff" emissiveIntensity={0.5} />
       </mesh>
       <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#333" />
+        <planeGeometry args={[0.05, 200]} />
+        <meshStandardMaterial color="#111" emissive="#0044ff" emissiveIntensity={0.5} />
       </mesh>
       <mesh position={[5, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#333" />
+        <planeGeometry args={[0.05, 200]} />
+        <meshStandardMaterial color="#111" emissive="#0044ff" emissiveIntensity={0.5} />
       </mesh>
 
-      {/* Grid for neon feel */}
-      <gridHelper args={[20, 40, '#ff00ff', '#111']} rotation={[0, 0, 0]} position={[0, 0.01, 0]} />
+      {/* Grid for neon feel - Changed from magenta to deep blue */}
+      <gridHelper args={[20, 40, '#0066ff', '#050505']} rotation={[0, 0, 0]} position={[0, 0.01, 0]} />
 
-      {/* Side Rails */}
-      <mesh position={[-10, 0.5, 0]}>
-        <boxGeometry args={[0.2, 1, 200]} />
-        <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={2} />
+      {/* Side Rails - High Emissive Cyan */}
+      <mesh position={[-10.1, 0.5, 0]}>
+        <boxGeometry args={[0.2, 1.5, 200]} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={4} />
       </mesh>
-      <mesh position={[10, 0.5, 0]}>
-        <boxGeometry args={[0.2, 1, 200]} />
-        <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={2} />
+      <mesh position={[10.1, 0.5, 0]}>
+        <boxGeometry args={[0.2, 1.5, 200]} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={4} />
       </mesh>
     </group>
   );
