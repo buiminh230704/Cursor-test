@@ -11,7 +11,7 @@ export const Player = () => {
   const shipRef = useRef<THREE.Group>(null);
   const {
     status, incrementScore, lane, setLane,
-    isJumping, setJumping, speed, useEnergy, regenerateEnergy
+    isJumping, setJumping, speed, useEnergy, regenerateEnergy, fov
   } = useGameStore();
 
   const lastKeyPress = useRef<string | null>(null);
@@ -54,85 +54,79 @@ export const Player = () => {
 
     regenerateEnergy(delta);
 
-    // Constant forward movement based on dynamic speed
+    // Constant forward movement
     meshRef.current.position.z -= speed * delta;
 
-    // Smooth lane transition with more responsiveness
+    // Smoother lane transition using damp
     const targetX = LANE_POSITIONS[lane];
-    meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, 0.15);
+    meshRef.current.position.x = THREE.MathUtils.damp(meshRef.current.position.x, targetX, 10, delta);
 
-    // Ship tilt on lane change
+    // Ship tilt based on movement
     if (shipRef.current) {
-      const tilt = (targetX - meshRef.current.position.x) * 0.2;
-      shipRef.current.rotation.z = THREE.MathUtils.lerp(shipRef.current.rotation.z, -tilt, 0.1);
-      shipRef.current.rotation.y = THREE.MathUtils.lerp(shipRef.current.rotation.y, tilt * 0.5, 0.1);
+      const tilt = (targetX - meshRef.current.position.x) * 0.4;
+      shipRef.current.rotation.z = THREE.MathUtils.damp(shipRef.current.rotation.z, -tilt, 6, delta);
+      shipRef.current.rotation.y = THREE.MathUtils.damp(shipRef.current.rotation.y, tilt * 0.5, 6, delta);
+      shipRef.current.rotation.x = THREE.MathUtils.damp(shipRef.current.rotation.x, isJumping ? -0.2 : 0, 4, delta);
     }
 
     // Jump animation
-    const targetY = isJumping ? 3.5 : 0;
-    meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, targetY, 0.1);
+    const targetY = isJumping ? 4.5 : 0;
+    meshRef.current.position.y = THREE.MathUtils.damp(meshRef.current.position.y, targetY, 6, delta);
 
-    // Camera follow with slight lag for smoothness
-    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, meshRef.current.position.z + 12, 0.1);
-    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, meshRef.current.position.x * 0.7, 0.05);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 6 + meshRef.current.position.y * 0.3, 0.05);
-    state.camera.lookAt(meshRef.current.position.x, 1, meshRef.current.position.z - 10);
+    // Dynamic FOV update
+    const cam = state.camera as THREE.PerspectiveCamera;
+    cam.fov = THREE.MathUtils.damp(cam.fov, fov, 2, delta);
+    cam.updateProjectionMatrix();
 
-    // Update score based on distance moved
-    incrementScore(speed * delta * 10);
+    // Camera follow logic - enhanced for extreme smoothness
+    state.camera.position.z = THREE.MathUtils.damp(state.camera.position.z, meshRef.current.position.z + 12, 6, delta);
+    state.camera.position.x = THREE.MathUtils.damp(state.camera.position.x, meshRef.current.position.x * 0.5, 4, delta);
+    state.camera.position.y = THREE.MathUtils.damp(state.camera.position.y, 6 + meshRef.current.position.y * 0.3, 4, delta);
+
+    // Look at a point ahead of the player
+    const lookTarget = new THREE.Vector3(meshRef.current.position.x, 1, meshRef.current.position.z - 15);
+    state.camera.lookAt(lookTarget);
+
+    // Update score
+    incrementScore(speed * delta * 20);
   });
 
   return (
     <group ref={meshRef}>
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+      <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>
         <group ref={shipRef}>
-          {/* Main Body */}
           <Trail
-            width={1.5}
-            length={10}
+            width={2.5}
+            length={15}
             color={new THREE.Color('#00ffff')}
             attenuation={(t) => t * t}
           >
             <mesh castShadow>
-              <boxGeometry args={[1, 0.4, 2.5]} />
-              <meshStandardMaterial color="#222" metalness={1} roughness={0.1} />
+              <boxGeometry args={[1.3, 0.4, 3]} />
+              <meshStandardMaterial color="#050505" metalness={1} roughness={0} />
             </mesh>
           </Trail>
 
           {/* Cockpit */}
-          <mesh position={[0, 0.25, 0.3]}>
-            <boxGeometry args={[0.5, 0.3, 0.8]} />
-            <meshStandardMaterial color="#111" emissive="#00ffff" emissiveIntensity={1} transparent opacity={0.8} />
+          <mesh position={[0, 0.3, 0.5]}>
+            <boxGeometry args={[0.6, 0.35, 1.2]} />
+            <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={3} transparent opacity={0.9} />
           </mesh>
 
-          {/* Fins */}
-          <mesh position={[0.7, 0, -0.5]} rotation={[0, 0, 0.2]}>
-            <boxGeometry args={[0.8, 0.1, 1.2]} />
-            <meshStandardMaterial color="#333" />
+          {/* Side Thrusters */}
+          <mesh position={[0.9, -0.1, -0.4]} rotation={[0, 0, 0.1]}>
+            <boxGeometry args={[0.7, 0.1, 1.8]} />
+            <meshStandardMaterial color="#222" />
           </mesh>
-          <mesh position={[-0.7, 0, -0.5]} rotation={[0, 0, -0.2]}>
-            <boxGeometry args={[0.8, 0.1, 1.2]} />
-            <meshStandardMaterial color="#333" />
-          </mesh>
-
-          {/* Thrusters */}
-          <mesh position={[0.3, -0.1, 1.3]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.2, 0.1, 0.4]} />
-            <meshStandardMaterial color="#000" emissive="#ff0044" emissiveIntensity={10} />
-          </mesh>
-          <mesh position={[-0.3, -0.1, 1.3]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.2, 0.1, 0.4]} />
-            <meshStandardMaterial color="#000" emissive="#ff0044" emissiveIntensity={10} />
+          <mesh position={[-0.9, -0.1, -0.4]} rotation={[0, 0, -0.1]}>
+            <boxGeometry args={[0.7, 0.1, 1.8]} />
+            <meshStandardMaterial color="#222" />
           </mesh>
 
-          {/* Wing Tip Lights */}
-          <mesh position={[1.1, 0, -0.8]}>
-            <sphereGeometry args={[0.1]} />
-            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={5} />
-          </mesh>
-          <mesh position={[-1.1, 0, -0.8]}>
-            <sphereGeometry args={[0.1]} />
-            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={5} />
+          {/* Dynamic Thruster Glow */}
+          <mesh position={[0, -0.1, 1.6]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.4, 0.2, 0.6]} />
+            <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={15} />
           </mesh>
         </group>
       </Float>

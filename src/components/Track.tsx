@@ -8,11 +8,12 @@ export const Track = () => {
 
   useFrame((state) => {
     if (groupRef.current) {
-      const playerZ = state.camera.position.z - 10;
+      const playerZ = state.camera.position.z - 12;
 
       groupRef.current.children.forEach((child: any) => {
-        if (child.position.z > playerZ + 50) {
-          child.position.z -= trackLength * 2;
+        // More generous threshold for resetting track pieces
+        if (child.position.z > playerZ + 150) {
+          child.position.z -= trackLength * 3;
         }
       });
     }
@@ -22,48 +23,57 @@ export const Track = () => {
     <group ref={groupRef}>
       <TrackSegment position={[0, -0.5, 0]} />
       <TrackSegment position={[0, -0.5, -trackLength]} />
+      <TrackSegment position={[0, -0.5, -trackLength * 2]} />
     </group>
   );
 };
 
 const TrackSegment = ({ position }: { position: [number, number, number] }) => {
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
+
+  useFrame((state) => {
+    if (materialRef.current) {
+      const pulse = Math.sin(state.clock.elapsedTime * 2.5) * 0.3 + 0.7;
+      materialRef.current.emissiveIntensity = pulse * 2;
+    }
+  });
+
   return (
     <group position={position}>
-      {/* Floor */}
+      {/* Floor - Slightly wider to ensure no edge gaps visible */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[20, 200]} />
+        <planeGeometry args={[24, 201]} />
         <meshStandardMaterial
-          color="#050505"
-          roughness={0.05}
-          metalness={0.9}
+          color="#000000"
+          roughness={0.01}
+          metalness={1}
         />
       </mesh>
 
-      {/* Lane Dividers - Subtle Glow */}
-      <mesh position={[-5, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.05, 200]} />
-        <meshStandardMaterial color="#111" emissive="#0044ff" emissiveIntensity={0.5} />
+      {/* Lane Dividers */}
+      <mesh position={[-5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.1, 200]} />
+        <meshStandardMaterial ref={materialRef} color="#000" emissive="#0066ff" emissiveIntensity={1} />
       </mesh>
-      <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.05, 200]} />
-        <meshStandardMaterial color="#111" emissive="#0044ff" emissiveIntensity={0.5} />
+      <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.1, 200]} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={1} />
       </mesh>
-      <mesh position={[5, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[0.05, 200]} />
-        <meshStandardMaterial color="#111" emissive="#0044ff" emissiveIntensity={0.5} />
+      <mesh position={[5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.1, 200]} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={1} />
       </mesh>
 
-      {/* Grid for neon feel - Changed from magenta to deep blue */}
-      <gridHelper args={[20, 40, '#0066ff', '#050505']} rotation={[0, 0, 0]} position={[0, 0.01, 0]} />
+      <gridHelper args={[24, 40, '#00ffff', '#050505']} rotation={[0, 0, 0]} position={[0, 0.02, 0]} />
 
-      {/* Side Rails - High Emissive Cyan */}
-      <mesh position={[-10.1, 0.5, 0]}>
-        <boxGeometry args={[0.2, 1.5, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={4} />
+      {/* Side Rails */}
+      <mesh position={[-11.5, 0.8, 0]}>
+        <boxGeometry args={[0.4, 2, 200.5]} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={6} />
       </mesh>
-      <mesh position={[10.1, 0.5, 0]}>
-        <boxGeometry args={[0.2, 1.5, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={4} />
+      <mesh position={[11.5, 0.8, 0]}>
+        <boxGeometry args={[0.4, 2, 200.5]} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={6} />
       </mesh>
     </group>
   );

@@ -1,25 +1,56 @@
+import { useEffect } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 
 export const MainMenu = () => {
   const { status, startGame } = useGameStore();
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (status === 'START' && e.key === 'Enter') {
+        startGame();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [status, startGame]);
+
   if (status !== 'START') return null;
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 text-white z-10">
-      <h1 className="text-6xl font-black mb-8 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 italic">
-        NEON RACER AAA
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 text-white z-20">
+      <h1 className="text-7xl font-black mb-4 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-500 italic drop-shadow-[0_0_20px_rgba(34,211,238,0.5)]">
+        NEON RACER
       </h1>
-      <p className="text-xl mb-12 opacity-80">Navigate the void. Avoid the monoliths.</p>
+      <div className="w-64 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mb-10" />
+
+      <p className="text-lg mb-12 opacity-80 font-medium tracking-wide">SURVIVE THE VOID</p>
+
       <button
         onClick={startGame}
-        className="px-12 py-4 bg-white text-black font-bold text-2xl hover:bg-cyan-400 transition-colors duration-300 transform hover:scale-105"
+        className="group relative px-16 py-5 bg-white text-black font-black text-2xl overflow-hidden transition-all hover:pr-20"
       >
-        START MISSION
+        <span className="relative z-10 uppercase">Start Mission</span>
+        <div className="absolute top-0 right-0 w-0 h-full bg-cyan-400 transition-all group-hover:w-4" />
+        <div className="absolute top-0 left-0 w-full h-full bg-cyan-400 transform scale-x-0 origin-left transition-transform group-hover:scale-x-100 -z-0 opacity-10" />
       </button>
-      <div className="mt-12 text-sm opacity-50 flex gap-8">
-        <span>[A][D] or [ARROWS] to MOVE</span>
-        <span>STAY ALIVE TO SCORE</span>
+
+      <div className="mt-16 grid grid-cols-2 gap-x-12 gap-y-4 text-[10px] uppercase font-bold tracking-[0.2em] opacity-40">
+        <div className="flex items-center gap-2">
+          <span className="bg-white/10 px-2 py-1 rounded">A / D</span>
+          <span>Switch Lanes</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="bg-white/10 px-2 py-1 rounded">Arrows</span>
+          <span>Movement</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="bg-white/10 px-2 py-1 rounded">Enter</span>
+          <span>Jump / Start</span>
+        </div>
+        <div className="flex items-center gap-2 text-cyan-400 opacity-100">
+          <span className="bg-cyan-400/20 px-2 py-1 rounded underline">Endless</span>
+          <span>Mission</span>
+        </div>
       </div>
     </div>
   );

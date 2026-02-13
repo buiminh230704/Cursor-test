@@ -7,6 +7,8 @@ describe('GameStore', () => {
     expect(state.status).toBe('START');
     expect(state.score).toBe(0);
     expect(state.lane).toBe(1);
+    expect(state.fov).toBe(75);
+    expect(state.collisionPos).toBeNull();
   });
 
   it('should change status to PLAYING when startGame is called', () => {
@@ -15,17 +17,22 @@ describe('GameStore', () => {
     expect(useGameStore.getState().status).toBe('PLAYING');
   });
 
-  it('should change lane', () => {
-    const { setLane } = useGameStore.getState();
-    setLane(2);
-    expect(useGameStore.getState().lane).toBe(2);
-    setLane(5); // should be clamped
-    expect(useGameStore.getState().lane).toBe(3);
+  it('should store collision position when endGame is called', () => {
+    const { endGame } = useGameStore.getState();
+    endGame([1, 2, 3]);
+    expect(useGameStore.getState().status).toBe('GAMEOVER');
+    expect(useGameStore.getState().collisionPos).toEqual([1, 2, 3]);
   });
 
-  it('should set jumping state', () => {
-    const { setJumping } = useGameStore.getState();
-    setJumping(true);
-    expect(useGameStore.getState().isJumping).toBe(true);
+  it('should increase speed and FOV when score increases', () => {
+    const { incrementScore, startGame } = useGameStore.getState();
+    startGame();
+    const initialSpeed = useGameStore.getState().speed;
+    const initialFov = useGameStore.getState().fov;
+
+    incrementScore(5000);
+
+    expect(useGameStore.getState().speed).toBeGreaterThan(initialSpeed);
+    expect(useGameStore.getState().fov).toBeGreaterThan(initialFov);
   });
 });

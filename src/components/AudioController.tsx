@@ -2,35 +2,44 @@ import { useEffect, useRef } from 'react';
 import { useGameStore } from '../store/useGameStore';
 
 export const AudioController = () => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { status } = useGameStore();
+  const bgMusicRef = useRef<HTMLAudioElement | null>(null);
+  const explosionSoundRef = useRef<HTMLAudioElement | null>(null);
+  const { status, collisionPos } = useGameStore();
 
   useEffect(() => {
-    // Using a royalty-free synthwave-style loop if possible,
-    // or a placeholder that is known to work.
-    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-    audio.loop = true;
-    audio.volume = 0.5;
-    audioRef.current = audio;
+    const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    bgMusic.loop = true;
+    bgMusic.volume = 0.4;
+    bgMusicRef.current = bgMusic;
+
+    const explosionSound = new Audio('https://www.soundjay.com/buttons/sounds/button-10.mp3');
+    explosionSound.volume = 0.8;
+    explosionSoundRef.current = explosionSound;
 
     return () => {
-      audio.pause();
-      audioRef.current = null;
+      bgMusic.pause();
+      bgMusicRef.current = null;
+      explosionSoundRef.current = null;
     };
   }, []);
 
   useEffect(() => {
-    if (!audioRef.current) return;
+    if (!bgMusicRef.current) return;
 
     if (status === 'PLAYING') {
-      audioRef.current.play().catch(e => console.log("Audio play failed, needs user interaction:", e));
-    } else if (status === 'GAMEOVER') {
-      // Maybe lower volume or change pitch? For now just keep playing or pause
+      bgMusicRef.current.play().catch(() => {});
     } else if (status === 'START') {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+      bgMusicRef.current.pause();
+      bgMusicRef.current.currentTime = 0;
     }
   }, [status]);
+
+  useEffect(() => {
+    if (collisionPos && explosionSoundRef.current) {
+      explosionSoundRef.current.currentTime = 0;
+      explosionSoundRef.current.play().catch(() => {});
+    }
+  }, [collisionPos]);
 
   return null;
 };
