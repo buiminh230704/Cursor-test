@@ -1,4 +1,4 @@
-import { Stars, PerspectiveCamera, Environment, MeshDistortMaterial } from '@react-three/drei';
+import { Stars, PerspectiveCamera, Environment } from '@react-three/drei';
 
 export const GameScene = () => {
   return (
@@ -22,12 +22,10 @@ export const GameScene = () => {
       {/* Retro Sun in the far distance */}
       <mesh position={[0, -20, -500]} rotation={[0, 0, 0]}>
         <circleGeometry args={[100, 64]} />
-        <MeshDistortMaterial
+        <meshStandardMaterial
           color="#ff3300"
           emissive="#ff0066"
           emissiveIntensity={10}
-          distort={0.2}
-          speed={1}
         />
       </mesh>
 

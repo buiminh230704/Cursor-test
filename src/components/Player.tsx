@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGameStore } from '../store/useGameStore';
 import { Trail, Float } from '@react-three/drei';
@@ -48,6 +48,9 @@ export const Player = () => {
     };
   }, [status, lane, setLane, isJumping, setJumping, useEnergy]);
 
+  const lookTarget = useMemo(() => new THREE.Vector3(), []);
+  const trailColor = useMemo(() => new THREE.Color('#00ffff'), []);
+
   useFrame((state, delta) => {
     if (status !== 'PLAYING') return;
     if (!meshRef.current) return;
@@ -84,7 +87,7 @@ export const Player = () => {
     state.camera.position.y = THREE.MathUtils.damp(state.camera.position.y, 6 + meshRef.current.position.y * 0.3, 4, delta);
 
     // Look at a point ahead of the player
-    const lookTarget = new THREE.Vector3(meshRef.current.position.x, 1, meshRef.current.position.z - 15);
+    lookTarget.set(meshRef.current.position.x, 1, meshRef.current.position.z - 15);
     state.camera.lookAt(lookTarget);
 
     // Update score
@@ -98,7 +101,7 @@ export const Player = () => {
           <Trail
             width={2.5}
             length={15}
-            color={new THREE.Color('#00ffff')}
+            color={trailColor}
             attenuation={(t) => t * t}
           >
             <mesh castShadow>
