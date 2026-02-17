@@ -53,8 +53,10 @@ export const Obstacles = () => {
     if (status !== 'PLAYING') return;
     if (!obstaclesRef.current) return;
 
-    const playerPos = state.camera.position;
-    const pZ = playerPos.z - 12;
+    const player = state.scene.getObjectByName('player');
+    if (!player) return;
+
+    const pZ = player.position.z;
 
     const storeState = useGameStore.getState();
     const playerActualX = LANE_POSITIONS[storeState.lane];
@@ -70,7 +72,7 @@ export const Obstacles = () => {
       }
 
       const collisionX = dx < 1.6;
-      const collisionZ = dz < 1.4;
+      const collisionZ = dz < 2.0;
       let collisionY = false;
 
       // Obstacle type is stored in user data or we can infer from position.y
@@ -86,7 +88,7 @@ export const Obstacles = () => {
       }
 
       // Reset wave logic
-      if (mesh.position.z > playerPos.z + 40) {
+      if (mesh.position.z > pZ + 40) {
         mesh.position.z -= TRACK_LENGTH;
         // Randomize lane on reset but keep wave structure roughly
         // (For simplicity in this flat list, we just move it to a random lane)

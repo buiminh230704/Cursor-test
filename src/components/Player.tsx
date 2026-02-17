@@ -105,7 +105,7 @@ export const Player = () => {
   });
 
   return (
-    <group ref={meshRef}>
+    <group ref={meshRef} name="player">
       <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>
         <group ref={shipRef}>
           {/* Main Hull */}
@@ -128,32 +128,42 @@ export const Player = () => {
             </mesh>
           </group>
 
-          {/* Twin Engine Pods */}
+          {/* Twin Engine Pods - Enhanced */}
           <group position={[0, -0.2, 1.5]}>
             <mesh position={[-0.7, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.3, 0.35, 1.2, 8]} />
-              <meshStandardMaterial color="#333" />
+              <cylinderGeometry args={[0.3, 0.35, 1.2, 12]} />
+              <meshStandardMaterial color="#222" metalness={1} roughness={0.3} />
             </mesh>
             <mesh position={[0.7, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.3, 0.35, 1.2, 8]} />
-              <meshStandardMaterial color="#333" />
+              <cylinderGeometry args={[0.3, 0.35, 1.2, 12]} />
+              <meshStandardMaterial color="#222" metalness={1} roughness={0.3} />
             </mesh>
 
-            {/* Dual Thruster Glow */}
+            {/* Dual Thruster Glow - Pulsing Effect via intensity */}
             <mesh position={[-0.7, 0, 0.6]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.2, 0.2, 0.1, 16]} />
-              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={20} />
+              <cylinderGeometry args={[0.22, 0.18, 0.1, 16]} />
+              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={30} />
             </mesh>
             <mesh position={[0.7, 0, 0.6]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.2, 0.2, 0.1, 16]} />
-              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={20} />
+              <cylinderGeometry args={[0.22, 0.18, 0.1, 16]} />
+              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={30} />
+            </mesh>
+
+            {/* Secondary Inner Glow */}
+            <mesh position={[-0.7, 0, 0.62]} rotation={[Math.PI / 2, 0, 0]}>
+              <circleGeometry args={[0.1]} />
+              <meshBasicMaterial color="#ffffff" />
+            </mesh>
+            <mesh position={[0.7, 0, 0.62]} rotation={[Math.PI / 2, 0, 0]}>
+              <circleGeometry args={[0.1]} />
+              <meshBasicMaterial color="#ffffff" />
             </mesh>
           </group>
 
-          {/* Cockpit - Aerodynamic */}
-          <mesh position={[0, 0.3, -0.5]} rotation={[Math.PI / 2, 0, 0]}>
-            <coneGeometry args={[0.4, 1.5, 4]} />
-            <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={5} transparent opacity={0.8} />
+          {/* Cockpit - Enhanced Aerodynamics */}
+          <mesh position={[0, 0.35, -0.6]} rotation={[Math.PI / 2.2, 0, 0]}>
+            <cylinderGeometry args={[0.05, 0.4, 1.8, 4]} />
+            <meshStandardMaterial color="#050505" emissive="#00ffff" emissiveIntensity={8} transparent opacity={0.9} roughness={0} metalness={1} />
           </mesh>
 
           {/* Tail Fin */}

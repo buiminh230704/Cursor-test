@@ -53,20 +53,38 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
   return (
     <group position={position}>
       {/* Decorative City Pillars - Left */}
-      <mesh position={[-25, 40, 0]}>
-        <boxGeometry args={[10, 100, 20]} />
-        <meshStandardMaterial color="#050505" emissive="#002244" emissiveIntensity={0.5} />
-      </mesh>
+      <group position={[-25, 40, 0]}>
+        <mesh>
+          <boxGeometry args={[10, 100, 20]} />
+          <meshStandardMaterial color="#050505" emissive="#002244" emissiveIntensity={0.5} />
+        </mesh>
+        {/* Windows */}
+        {[...Array(10)].map((_, i) => (
+          <mesh key={i} position={[5.1, i * 8 - 40, 0]}>
+            <planeGeometry args={[0.2, 3, 18]} />
+            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={2} />
+          </mesh>
+        ))}
+      </group>
       <mesh position={[-35, 20, -50]}>
         <boxGeometry args={[8, 60, 15]} />
         <meshStandardMaterial color="#050505" emissive="#220044" emissiveIntensity={0.5} />
       </mesh>
 
       {/* Decorative City Pillars - Right */}
-      <mesh position={[25, 40, -80]}>
-        <boxGeometry args={[10, 100, 30]} />
-        <meshStandardMaterial color="#050505" emissive="#002244" emissiveIntensity={0.5} />
-      </mesh>
+      <group position={[25, 40, -80]}>
+        <mesh>
+          <boxGeometry args={[10, 100, 30]} />
+          <meshStandardMaterial color="#050505" emissive="#002244" emissiveIntensity={0.5} />
+        </mesh>
+        {/* Windows */}
+        {[...Array(10)].map((_, i) => (
+          <mesh key={i} position={[-5.1, i * 8 - 40, 0]}>
+            <planeGeometry args={[0.2, 3, 28]} />
+            <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={2} />
+          </mesh>
+        ))}
+      </group>
       <mesh position={[40, 30, 20]}>
         <boxGeometry args={[12, 80, 25]} />
         <meshStandardMaterial color="#050505" emissive="#440022" emissiveIntensity={0.5} />
