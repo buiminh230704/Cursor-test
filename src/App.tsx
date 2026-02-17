@@ -8,6 +8,7 @@ import { Explosion } from './components/Explosion';
 import { Effects } from './components/Effects';
 import { MainMenu } from './components/UI/MainMenu';
 import { HUD } from './components/UI/HUD';
+import { MobileControls } from './components/UI/MobileControls';
 import { GameOver } from './components/UI/GameOver';
 import { AudioController } from './components/AudioController';
 import { Loader } from '@react-three/drei';
@@ -30,6 +31,7 @@ function App() {
       <AudioController />
       <MainMenu />
       <HUD />
+      <MobileControls />
       <GameOver />
     </div>
   );

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useGameStore } from '../store/useGameStore';
 import { Trail, Float } from '@react-three/drei';
 import * as THREE from 'three';
@@ -9,12 +9,20 @@ const LANE_POSITIONS = [-7.5, -2.5, 2.5, 7.5];
 export const Player = () => {
   const meshRef = useRef<THREE.Group>(null);
   const shipRef = useRef<THREE.Group>(null);
+  const { camera } = useThree();
   const {
-    status, incrementScore, lane, setLane,
-    isJumping, setJumping, speed, useEnergy, regenerateEnergy, fov
+    status, incrementScore, lane,
+    isJumping, speed, regenerateEnergy, fov
   } = useGameStore();
 
   const lastKeyPress = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (status === 'PLAYING' && meshRef.current) {
+      meshRef.current.position.set(LANE_POSITIONS[lane], 0, 0);
+      camera.position.set(LANE_POSITIONS[lane] * 0.5, 6, 12);
+    }
+  }, [status, camera]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -122,12 +130,12 @@ export const Player = () => {
 
           {/* Twin Engine Pods */}
           <group position={[0, -0.2, 1.5]}>
-            <mesh position={[-0.7, 0, 0]}>
-              <cylinderGeometry args={[0.3, 0.35, 1.2, 8]} rotation={[Math.PI / 2, 0, 0]} />
+            <mesh position={[-0.7, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.3, 0.35, 1.2, 8]} />
               <meshStandardMaterial color="#333" />
             </mesh>
-            <mesh position={[0.7, 0, 0]}>
-              <cylinderGeometry args={[0.3, 0.35, 1.2, 8]} rotation={[Math.PI / 2, 0, 0]} />
+            <mesh position={[0.7, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.3, 0.35, 1.2, 8]} />
               <meshStandardMaterial color="#333" />
             </mesh>
 
@@ -143,8 +151,8 @@ export const Player = () => {
           </group>
 
           {/* Cockpit - Aerodynamic */}
-          <mesh position={[0, 0.3, -0.5]}>
-            <coneGeometry args={[0.4, 1.5, 4]} rotation={[Math.PI / 2, 0, 0]} />
+          <mesh position={[0, 0.3, -0.5]} rotation={[Math.PI / 2, 0, 0]}>
+            <coneGeometry args={[0.4, 1.5, 4]} />
             <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={5} transparent opacity={0.8} />
           </mesh>
 

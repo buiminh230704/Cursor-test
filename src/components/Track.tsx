@@ -2,9 +2,21 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
+import { useEffect } from 'react';
+import { useGameStore } from '../store/useGameStore';
+
 export const Track = () => {
   const groupRef = useRef<THREE.Group>(null);
+  const status = useGameStore((state) => state.status);
   const trackLength = 200;
+
+  useEffect(() => {
+    if (status === 'PLAYING' && groupRef.current) {
+      groupRef.current.children[0].position.z = 0;
+      groupRef.current.children[1].position.z = -trackLength;
+      groupRef.current.children[2].position.z = -trackLength * 2;
+    }
+  }, [status]);
 
   useFrame((state) => {
     if (groupRef.current) {

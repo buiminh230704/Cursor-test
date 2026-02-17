@@ -6,14 +6,14 @@ export const HUD = () => {
   if (status !== 'PLAYING') return null;
 
   return (
-    <div className="absolute top-0 left-0 w-full p-8 flex justify-between items-start text-white z-10 pointer-events-none">
-      <div className="flex flex-col gap-4">
+    <div className="absolute top-0 left-0 w-full p-4 md:p-8 flex justify-between items-start text-white z-10 pointer-events-none">
+      <div className="flex flex-col gap-2 md:gap-4">
         <div>
-          <div className="text-xs opacity-50 font-bold tracking-widest uppercase mb-1">Distance</div>
-          <div className="text-5xl font-black italic tabular-nums">{Math.floor(score / 10)}m</div>
+          <div className="text-[10px] md:text-xs opacity-50 font-bold tracking-widest uppercase mb-1">Distance</div>
+          <div className="text-3xl md:text-5xl font-black italic tabular-nums">{Math.floor(score / 10)}m</div>
         </div>
 
-        <div className="w-64">
+        <div className="w-40 md:w-64">
           <div className="flex justify-between text-[10px] uppercase font-bold mb-1 opacity-70">
             <span>Velocity</span>
             <span>{Math.floor(speed * 10)} km/h</span>
@@ -43,7 +43,7 @@ export const HUD = () => {
             ))}
           </div>
         </div>
-        <div className="text-[8px] opacity-40 uppercase">[Enter] to Discharge</div>
+        <div className="text-[8px] opacity-40 uppercase md:block hidden">[Enter] to Discharge</div>
       </div>
     </div>
   );

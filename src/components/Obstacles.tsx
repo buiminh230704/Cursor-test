@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGameStore } from '../store/useGameStore';
 import * as THREE from 'three';
@@ -11,6 +11,24 @@ const LANE_POSITIONS = [-7.5, -2.5, 2.5, 7.5];
 export const Obstacles = () => {
   const { status, endGame, incrementScore } = useGameStore();
   const obstaclesRef = useRef<THREE.Group>(null);
+
+  useEffect(() => {
+    if (status === 'PLAYING' && obstaclesRef.current) {
+      // Reset all obstacles to their initial wave positions
+      let index = 0;
+      waveData.forEach((data) => {
+        const mesh = obstaclesRef.current?.children[index] as THREE.Mesh;
+        if (mesh) {
+          mesh.position.set(
+            LANE_POSITIONS[data.lane],
+            data.type === 'MONOLITH' ? 2.5 : 0,
+            data.z
+          );
+        }
+        index++;
+      });
+    }
+  }, [status]);
 
   // Generate initial waves
   const waveData = useMemo(() => {

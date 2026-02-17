@@ -33,17 +33,17 @@ export const GameOver = () => {
         TERMINATED
       </div>
 
-      <div className="relative flex flex-col items-center">
-        <h2 className="text-6xl font-black mb-12 tracking-tighter italic">CRITICAL FAILURE</h2>
+      <div className="relative flex flex-col items-center p-4 text-center">
+        <h2 className="text-4xl md:text-6xl font-black mb-12 tracking-tighter italic">CRITICAL FAILURE</h2>
 
-        <div className="flex gap-20 mb-16">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-20 mb-16">
           <div className="flex flex-col items-center">
             <div className="text-[10px] uppercase font-bold tracking-[0.3em] opacity-50 mb-2">Distance reached</div>
-            <div className="text-5xl font-black italic tabular-nums">{Math.floor(score / 10)}m</div>
+            <div className="text-4xl md:text-5xl font-black italic tabular-nums">{Math.floor(score / 10)}m</div>
           </div>
           <div className="flex flex-col items-center">
             <div className="text-[10px] uppercase font-bold tracking-[0.3em] opacity-50 mb-2">Personal best</div>
-            <div className="text-5xl font-black italic tabular-nums text-cyan-400">{Math.floor(highscore / 10)}m</div>
+            <div className="text-4xl md:text-5xl font-black italic tabular-nums text-cyan-400">{Math.floor(highscore / 10)}m</div>
           </div>
         </div>
 
