@@ -40,6 +40,26 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
 
   return (
     <group position={position}>
+      {/* Decorative City Pillars - Left */}
+      <mesh position={[-25, 40, 0]}>
+        <boxGeometry args={[10, 100, 20]} />
+        <meshStandardMaterial color="#050505" emissive="#002244" emissiveIntensity={0.5} />
+      </mesh>
+      <mesh position={[-35, 20, -50]}>
+        <boxGeometry args={[8, 60, 15]} />
+        <meshStandardMaterial color="#050505" emissive="#220044" emissiveIntensity={0.5} />
+      </mesh>
+
+      {/* Decorative City Pillars - Right */}
+      <mesh position={[25, 40, -80]}>
+        <boxGeometry args={[10, 100, 30]} />
+        <meshStandardMaterial color="#050505" emissive="#002244" emissiveIntensity={0.5} />
+      </mesh>
+      <mesh position={[40, 30, 20]}>
+        <boxGeometry args={[12, 80, 25]} />
+        <meshStandardMaterial color="#050505" emissive="#440022" emissiveIntensity={0.5} />
+      </mesh>
+
       {/* Floor - Overlap of 0.2 to ensure no edge gaps */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[24, 200.2]} />
@@ -71,6 +91,12 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
         position={[0, 0.02, 0]}
         scale={[0.12, 1, 1]}
       />
+
+      {/* Additional Glow Floor for depth */}
+      <mesh position={[0, -0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[26, 200.2]} />
+        <meshStandardMaterial color="#000" emissive="#001133" emissiveIntensity={0.5} transparent opacity={0.5} />
+      </mesh>
 
       {/* Side Rails */}
       <mesh position={[-11.5, 0.8, 0]}>
