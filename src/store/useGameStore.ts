@@ -6,6 +6,7 @@ interface GameState {
   highscore: number;
   lane: number; // 0, 1, 2, 3
   isJumping: boolean;
+  jumpCount: number;
   speed: number;
   baseSpeed: number;
   maxSpeed: number;
@@ -28,6 +29,7 @@ export const useGameStore = create<GameState>((set) => ({
   highscore: 0,
   lane: 1,
   isJumping: false,
+  jumpCount: 0,
   speed: 15,
   baseSpeed: 15,
   maxSpeed: 60,
@@ -39,6 +41,7 @@ export const useGameStore = create<GameState>((set) => ({
     score: 0,
     lane: 1,
     isJumping: false,
+    jumpCount: 0,
     speed: 15,
     energy: 100,
     fov: 75,
@@ -58,7 +61,10 @@ export const useGameStore = create<GameState>((set) => ({
     return { score: newScore, speed: newSpeed, fov: newFov };
   }),
   setLane: (lane) => set({ lane: Math.max(0, Math.min(3, lane)) }),
-  setJumping: (jumping) => set({ isJumping: jumping }),
+  setJumping: (jumping) => set((state) => ({
+    isJumping: jumping,
+    jumpCount: jumping ? state.jumpCount + 1 : 0
+  })),
   useEnergy: (amount) => {
     let success = false;
     set((state) => {

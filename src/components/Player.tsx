@@ -12,7 +12,7 @@ export const Player = () => {
   const { camera } = useThree();
   const {
     status, incrementScore, lane,
-    isJumping, speed, regenerateEnergy, fov
+    isJumping, jumpCount, speed, regenerateEnergy, fov
   } = useGameStore();
 
   const lastKeyPress = useRef<string | null>(null);
@@ -23,6 +23,8 @@ export const Player = () => {
       camera.position.set(LANE_POSITIONS[lane] * 0.5, 6, 12);
     }
   }, [status, camera]);
+
+  const jumpTimeout = useRef<any>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -36,10 +38,13 @@ export const Player = () => {
           state.setLane(state.lane + 1);
         }
         lastKeyPress.current = e.key;
-      } else if (e.key === 'Enter' && !state.isJumping) {
-        if (state.useEnergy(30)) {
+      } else if (e.key === 'Enter' && state.jumpCount < 2) {
+        if (state.useEnergy(25)) {
+          if (jumpTimeout.current) clearTimeout(jumpTimeout.current);
           state.setJumping(true);
-          setTimeout(() => state.setJumping(false), 800);
+          jumpTimeout.current = setTimeout(() => {
+            useGameStore.getState().setJumping(false);
+          }, 800);
         }
       }
     };
@@ -82,8 +87,8 @@ export const Player = () => {
       shipRef.current.rotation.x = THREE.MathUtils.damp(shipRef.current.rotation.x, isJumping ? -0.2 : 0, 8, delta);
     }
 
-    // Jump animation
-    const targetY = isJumping ? 4.5 : 0;
+    // Jump animation - higher for second jump
+    const targetY = isJumping ? (jumpCount > 1 ? 7 : 4.5) : 0;
     meshRef.current.position.y = THREE.MathUtils.damp(meshRef.current.position.y, targetY, 6, delta);
 
     // Dynamic FOV update
@@ -106,25 +111,46 @@ export const Player = () => {
 
   return (
     <group ref={meshRef} name="player">
+      {/* Jump Burst Effect */}
+      {isJumping && (
+        <pointLight position={[0, 0, 0]} intensity={20} color="#00ffff" distance={10} decay={2} />
+      )}
+
       <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>
         <group ref={shipRef}>
-          {/* Main Hull */}
+          {/* Main Hull - More Colorful */}
           <mesh castShadow>
             <boxGeometry args={[0.8, 0.5, 4]} />
-            <meshStandardMaterial color="#111" metalness={1} roughness={0.2} />
+            <meshStandardMaterial color="#0066ff" emissive="#0033aa" emissiveIntensity={0.5} metalness={1} roughness={0.1} />
           </mesh>
 
-          {/* Wings - Swept Back */}
+          {/* Hull Racing Stripe */}
+          <mesh position={[0, 0.26, 0]}>
+            <boxGeometry args={[0.2, 0.01, 3.8]} />
+            <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={2} />
+          </mesh>
+
+          {/* Wings - Swept Back & Brighter */}
           <group position={[0, 0, 0.5]}>
             {/* Left Wing */}
             <mesh position={[-1.2, 0, 0.5]} rotation={[0, -0.4, 0]}>
               <boxGeometry args={[2, 0.1, 1.5]} />
-              <meshStandardMaterial color="#222" metalness={0.8} />
+              <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={0.5} metalness={0.8} />
             </mesh>
             {/* Right Wing */}
             <mesh position={[1.2, 0, 0.5]} rotation={[0, 0.4, 0]}>
               <boxGeometry args={[2, 0.1, 1.5]} />
-              <meshStandardMaterial color="#222" metalness={0.8} />
+              <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={0.5} metalness={0.8} />
+            </mesh>
+
+            {/* Wing Tip Lights */}
+            <mesh position={[-2.1, 0, 1]} rotation={[0, -0.4, 0]}>
+              <sphereGeometry args={[0.1, 8, 8]} />
+              <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={10} />
+            </mesh>
+            <mesh position={[2.1, 0, 1]} rotation={[0, 0.4, 0]}>
+              <sphereGeometry args={[0.1, 8, 8]} />
+              <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={10} />
             </mesh>
           </group>
 
@@ -166,10 +192,10 @@ export const Player = () => {
             <meshStandardMaterial color="#050505" emissive="#00ffff" emissiveIntensity={8} transparent opacity={0.9} roughness={0} metalness={1} />
           </mesh>
 
-          {/* Tail Fin */}
+          {/* Tail Fin - Brighter */}
           <mesh position={[0, 0.6, 1.5]}>
             <boxGeometry args={[0.05, 0.8, 1]} />
-            <meshStandardMaterial color="#222" />
+            <meshStandardMaterial color="#0066ff" emissive="#0066ff" emissiveIntensity={0.5} />
           </mesh>
 
           <Trail

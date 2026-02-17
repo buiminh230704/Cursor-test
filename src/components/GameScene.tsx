@@ -19,26 +19,27 @@ export const GameScene = () => {
 
       <Stars radius={150} depth={50} count={7000} factor={4} saturation={1} fade speed={2} />
 
-      {/* Retro Sun in the far distance */}
-      <mesh position={[0, -40, -600]} rotation={[0, 0, 0]}>
-        <circleGeometry args={[200, 64]} />
+      {/* Retro Sun in the far distance - Moved further and lowered intensity to prevent blinding */}
+      <mesh position={[0, -80, -800]} rotation={[0, 0, 0]}>
+        <circleGeometry args={[250, 64]} />
         <meshStandardMaterial
           color="#ff0000"
-          emissive="#ff00ff"
-          emissiveIntensity={15}
+          emissive="#ff00aa"
+          emissiveIntensity={8}
         />
       </mesh>
 
       {/* Distant light beams */}
       {[...Array(5)].map((_, i) => (
-        <mesh key={i} position={[(i - 2) * 100, 0, -800]} rotation={[0, 0, 0]}>
-          <boxGeometry args={[2, 1000, 2]} />
-          <meshBasicMaterial color="#00ffff" transparent opacity={0.1} />
+        <mesh key={i} position={[(i - 2) * 120, 0, -1000]} rotation={[0, 0, 0]}>
+          <boxGeometry args={[1, 2000, 1]} />
+          <meshBasicMaterial color="#00ffff" transparent opacity={0.05} />
         </mesh>
       ))}
 
       <Environment preset="night" />
-      <fog attach="fog" args={['#000000', 50, 200]} />
+      {/* Increased fog distance for better visibility */}
+      <fog attach="fog" args={['#000000', 80, 400]} />
     </>
   );
 };
