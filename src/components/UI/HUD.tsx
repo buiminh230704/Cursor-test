@@ -1,7 +1,7 @@
 import { useGameStore } from '../../store/useGameStore';
 
 export const HUD = () => {
-  const { score, status, speed, energy } = useGameStore();
+  const { score, status, speed, energy, charge, isSuper } = useGameStore();
 
   if (status !== 'PLAYING') return null;
 
@@ -44,6 +44,19 @@ export const HUD = () => {
           </div>
         </div>
         <div className="text-[8px] opacity-40 uppercase md:block hidden">[Enter] to Discharge</div>
+      </div>
+
+      {/* Charge Meter - Center Bottom */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
+        <div className={`text-[10px] uppercase font-black mb-2 tracking-widest ${isSuper ? 'text-orange-400 animate-pulse' : 'text-white opacity-50'}`}>
+          {isSuper ? 'HYPER DRIVE ACTIVE' : 'Sync Charge'}
+        </div>
+        <div className="w-48 h-2 bg-white/10 rounded-full overflow-hidden border border-white/20">
+          <div
+            className={`h-full transition-all duration-300 ${isSuper ? 'bg-orange-400' : 'bg-cyan-400'}`}
+            style={{ width: `${charge}%` }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export const Player = () => {
   const { camera } = useThree();
   const {
     status, incrementScore, lane,
-    isJumping, jumpCount, speed, regenerateEnergy, fov
+    isJumping, jumpCount, speed, tick, fov, isSuper
   } = useGameStore();
 
   const lastKeyPress = useRef<string | null>(null);
@@ -70,7 +70,7 @@ export const Player = () => {
     if (status !== 'PLAYING') return;
     if (!meshRef.current) return;
 
-    regenerateEnergy(delta);
+    tick(delta);
 
     // Constant forward movement
     meshRef.current.position.z -= speed * delta;
@@ -121,7 +121,13 @@ export const Player = () => {
           {/* Main Hull - More Colorful */}
           <mesh castShadow>
             <boxGeometry args={[0.8, 0.5, 4]} />
-            <meshStandardMaterial color="#0066ff" emissive="#0033aa" emissiveIntensity={0.5} metalness={1} roughness={0.1} />
+            <meshStandardMaterial
+              color={isSuper ? "#ffaa00" : "#0066ff"}
+              emissive={isSuper ? "#ffaa00" : "#0033aa"}
+              emissiveIntensity={isSuper ? 2 : 0.5}
+              metalness={1}
+              roughness={0.1}
+            />
           </mesh>
 
           {/* Hull Racing Stripe */}
@@ -199,9 +205,9 @@ export const Player = () => {
           </mesh>
 
           <Trail
-            width={2.5}
-            length={15}
-            color={trailColor}
+            width={isSuper ? 5 : 2.5}
+            length={isSuper ? 30 : 15}
+            color={isSuper ? new THREE.Color("#ffaa00") : trailColor}
             attenuation={(t) => t * t}
           >
             <mesh position={[0, 0, 2]} />

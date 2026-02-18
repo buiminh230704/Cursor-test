@@ -13,6 +13,8 @@ interface GameState {
   energy: number;
   fov: number;
   collisionPos: [number, number, number] | null;
+  charge: number; // 0 to 100
+  isSuper: boolean;
   startGame: () => void;
   endGame: (pos?: [number, number, number]) => void;
   resetGame: () => void;
@@ -21,9 +23,12 @@ interface GameState {
   setJumping: (jumping: boolean) => void;
   useEnergy: (amount: number) => boolean;
   regenerateEnergy: (delta: number) => void;
+  addCharge: (amount: number) => void;
+  setSuper: (active: boolean) => void;
+  tick: (delta: number) => void;
 }
 
-export const useGameStore = create<GameState>((set) => ({
+export const useGameStore = create<GameState>((set, get) => ({
   status: 'START',
   score: 0,
   highscore: 0,
@@ -36,6 +41,8 @@ export const useGameStore = create<GameState>((set) => ({
   energy: 100,
   fov: 75,
   collisionPos: null,
+  charge: 0,
+  isSuper: false,
   startGame: () => set({
     status: 'PLAYING',
     score: 0,
@@ -45,7 +52,9 @@ export const useGameStore = create<GameState>((set) => ({
     speed: 15,
     energy: 100,
     fov: 75,
-    collisionPos: null
+    collisionPos: null,
+    charge: 0,
+    isSuper: false,
   }),
   endGame: (pos) => set((state) => ({
     status: 'GAMEOVER',
@@ -79,4 +88,32 @@ export const useGameStore = create<GameState>((set) => ({
   regenerateEnergy: (delta) => set((state) => ({
     energy: Math.min(100, state.energy + delta * 15)
   })),
+  addCharge: (amount) => {
+    const state = get();
+    if (state.isSuper) return;
+    const newCharge = Math.min(100, state.charge + amount);
+    set({ charge: newCharge });
+    if (newCharge >= 100) {
+      state.setSuper(true);
+    }
+  },
+  setSuper: (active) => set((state) => ({
+    isSuper: active,
+    speed: active ? state.speed + 25 : state.speed - 25,
+    fov: active ? state.fov + 15 : state.fov - 15,
+  })),
+  tick: (delta) => {
+    const state = get();
+    if (state.status !== 'PLAYING') return;
+
+    state.regenerateEnergy(delta);
+
+    if (state.isSuper) {
+      const newCharge = Math.max(0, state.charge - delta * 15);
+      set({ charge: newCharge, energy: 100 });
+      if (newCharge <= 0) {
+        state.setSuper(false);
+      }
+    }
+  },
 }));

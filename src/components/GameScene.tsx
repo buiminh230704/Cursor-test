@@ -17,7 +17,7 @@ export const GameScene = () => {
         color="#ffffff"
       />
 
-      <Stars radius={150} depth={50} count={7000} factor={4} saturation={1} fade speed={2} />
+      <Stars radius={200} depth={100} count={10000} factor={6} saturation={1} fade speed={3} />
 
       {/* Retro Sun in the far distance - Moved further and lowered intensity to prevent blinding */}
       <mesh position={[0, -80, -800]} rotation={[0, 0, 0]}>
@@ -29,11 +29,11 @@ export const GameScene = () => {
         />
       </mesh>
 
-      {/* Distant light beams */}
-      {[...Array(5)].map((_, i) => (
-        <mesh key={i} position={[(i - 2) * 120, 0, -1000]} rotation={[0, 0, 0]}>
-          <boxGeometry args={[1, 2000, 1]} />
-          <meshBasicMaterial color="#00ffff" transparent opacity={0.05} />
+      {/* Distant light beams - More of them and varied */}
+      {[...Array(8)].map((_, i) => (
+        <mesh key={i} position={[(i - 4) * 150, 0, -1200]} rotation={[0, 0, (Math.random() - 0.5) * 0.2]}>
+          <boxGeometry args={[2, 3000, 2]} />
+          <meshBasicMaterial color={i % 2 === 0 ? "#00ffff" : "#ff00ff"} transparent opacity={0.03} />
         </mesh>
       ))}
 

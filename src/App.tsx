@@ -4,6 +4,7 @@ import { GameScene } from './components/GameScene';
 import { Track } from './components/Track';
 import { Player } from './components/Player';
 import { Obstacles } from './components/Obstacles';
+import { Pickups } from './components/Pickups';
 import { Explosion } from './components/Explosion';
 import { Effects } from './components/Effects';
 import { MainMenu } from './components/UI/MainMenu';
@@ -22,6 +23,7 @@ function App() {
           <Track />
           <Player />
           <Obstacles />
+          <Pickups />
           <Explosion />
           <Effects />
         </Canvas>

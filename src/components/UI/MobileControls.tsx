@@ -3,10 +3,9 @@ import { useGameStore } from '../../store/useGameStore';
 
 export const MobileControls = () => {
   const { status, lane, setLane } = useGameStore();
+  const jumpTimeout = useRef<any>(null);
 
   if (status !== 'PLAYING') return null;
-
-  const jumpTimeout = useRef<any>(null);
   const handleJump = () => {
     const state = useGameStore.getState();
     if (state.jumpCount < 2) {
