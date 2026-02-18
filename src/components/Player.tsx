@@ -12,7 +12,7 @@ export const Player = () => {
   const { camera } = useThree();
   const {
     status, incrementScore, lane,
-    isJumping, setJumping, speed, tick, fov, isSuper
+    isJumping, jumpCount, setJumping, speed, tick, fov, isSuper
   } = useGameStore();
 
   const lastKeyPress = useRef<string | null>(null);
@@ -29,6 +29,12 @@ export const Player = () => {
   }, [status, camera]);
 
   useEffect(() => {
+    if (jumpCount > 0) {
+      verticalVelocity.current = JUMP_IMPULSE;
+    }
+  }, [jumpCount]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const state = useGameStore.getState();
       if (state.status !== 'PLAYING') return;
@@ -43,7 +49,6 @@ export const Player = () => {
       } else if (e.key === 'Enter' && state.jumpCount < 2) {
         if (state.useEnergy(25)) {
           state.setJumping(true);
-          verticalVelocity.current = JUMP_IMPULSE;
         }
       }
     };
@@ -124,7 +129,7 @@ export const Player = () => {
 
       {/* Jump Burst Effect */}
       {isJumping && (
-        <pointLight position={[0, 0, 0]} intensity={40} color="#00ffff" distance={15} decay={2} />
+        <pointLight position={[0, 1, 0]} intensity={20} color="#00ffff" distance={10} decay={2} />
       )}
 
       <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>

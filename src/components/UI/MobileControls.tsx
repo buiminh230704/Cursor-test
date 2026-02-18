@@ -15,7 +15,7 @@ export const MobileControls = () => {
   };
 
   return (
-    <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-10 pb-16 z-10 md:hidden select-none">
+    <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-10 pb-12 z-10 md:hidden select-none">
       <div className="flex justify-between items-end w-full max-w-lg mx-auto pointer-events-auto">
         {/* Left/Right Controls */}
         <div className="flex gap-4">
