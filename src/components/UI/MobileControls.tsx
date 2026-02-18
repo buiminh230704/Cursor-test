@@ -1,26 +1,21 @@
-import { useRef } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 
 export const MobileControls = () => {
   const { status, lane, setLane } = useGameStore();
-  const jumpTimeout = useRef<any>(null);
 
   if (status !== 'PLAYING') return null;
+
   const handleJump = () => {
     const state = useGameStore.getState();
     if (state.jumpCount < 2) {
       if (state.useEnergy(25)) {
-        if (jumpTimeout.current) clearTimeout(jumpTimeout.current);
         state.setJumping(true);
-        jumpTimeout.current = setTimeout(() => {
-          useGameStore.getState().setJumping(false);
-        }, 800);
       }
     }
   };
 
   return (
-    <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-10 pb-40 z-10 md:hidden select-none">
+    <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-10 pb-16 z-10 md:hidden select-none">
       <div className="flex justify-between items-end w-full max-w-lg mx-auto pointer-events-auto">
         {/* Left/Right Controls */}
         <div className="flex gap-4">

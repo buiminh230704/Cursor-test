@@ -59,8 +59,8 @@ export const Obstacles = () => {
     const pZ = player.position.z;
 
     const storeState = useGameStore.getState();
-    const playerActualX = LANE_POSITIONS[storeState.lane];
-    const playerActualY = storeState.isJumping ? 4 : 0;
+    const playerActualX = player.position.x;
+    const playerActualY = player.position.y;
 
     obstaclesRef.current.children.forEach((mesh: any) => {
       const dx = Math.abs(mesh.position.x - playerActualX);
@@ -75,12 +75,15 @@ export const Obstacles = () => {
       const collisionZ = dz < 2.0;
       let collisionY = false;
 
-      // Obstacle type is stored in user data or we can infer from position.y
+      // Monoliths are 5m tall, Spikes are 2m tall.
+      // Ship height is roughly 0.5m.
       const isMonolith = mesh.position.y > 1;
       if (isMonolith) {
-        collisionY = playerActualY < 4.5;
+        // Monolith goes from y=0 to y=5. Player must be above y=5.2 to clear.
+        collisionY = playerActualY < 5.2;
       } else {
-        collisionY = playerActualY < 1.2;
+        // Spikes go from y=0 to y=2. Player must be above y=2.2 to clear.
+        collisionY = playerActualY < 2.2;
       }
 
       if (collisionX && collisionZ && collisionY) {
