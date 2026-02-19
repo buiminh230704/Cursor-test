@@ -17,7 +17,7 @@ export const GameScene = () => {
         color="#ffffff"
       />
 
-      <Stars radius={200} depth={100} count={10000} factor={6} saturation={1} fade speed={3} />
+      <Stars radius={200} depth={100} count={3000} factor={4} saturation={1} fade speed={2} />
 
       <Environment preset="night" />
       {/* Increased fog distance for better visibility */}

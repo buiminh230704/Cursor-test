@@ -69,6 +69,7 @@ export const Player = () => {
 
   const lookTarget = useMemo(() => new THREE.Vector3(), []);
   const trailColor = useMemo(() => new THREE.Color('#00ffff'), []);
+  const superTrailColor = useMemo(() => new THREE.Color('#ffaa00'), []);
 
   useFrame((state, delta) => {
     if (status !== 'PLAYING') return;
@@ -223,7 +224,7 @@ export const Player = () => {
           <Trail
             width={isSuper ? 5 : 2.5}
             length={isSuper ? 30 : 15}
-            color={isSuper ? new THREE.Color("#ffaa00") : trailColor}
+            color={isSuper ? superTrailColor : trailColor}
             attenuation={(t) => t * t}
           >
             <mesh position={[0, 0, 2]} />
