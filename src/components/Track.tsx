@@ -45,8 +45,8 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
 
   useFrame((state) => {
     if (materialRef.current) {
-      const pulse = Math.sin(state.clock.elapsedTime * 2.5) * 0.3 + 0.7;
-      materialRef.current.emissiveIntensity = pulse * 4; // Increased pulse intensity
+      const pulse = Math.sin(state.clock.elapsedTime * 2.5) * 0.2 + 0.8;
+      materialRef.current.emissiveIntensity = pulse * 2;
     }
   });
 
@@ -81,7 +81,7 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
         {[...Array(10)].map((_, i) => (
           <mesh key={i} position={[-5.1, i * 8 - 40, 0]}>
             <planeGeometry args={[0.2, 3, 28]} />
-            <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={2} />
+            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={1} />
           </mesh>
         ))}
       </group>

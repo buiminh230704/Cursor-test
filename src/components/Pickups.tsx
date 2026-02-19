@@ -65,12 +65,12 @@ export const Pickups = () => {
             <mesh>
               <boxGeometry args={[0.5, 1.5, 0.5]} />
               <meshStandardMaterial
-                color="#00ffff"
-                emissive="#00ffff"
-                emissiveIntensity={10}
+                color="#ffcc00"
+                emissive="#ffcc00"
+                emissiveIntensity={15}
               />
             </mesh>
-            <Sparkles count={10} scale={2} size={2} color="#00ffff" />
+            <Sparkles count={10} scale={2} size={2} color="#ffcc00" />
           </Float>
         </group>
       ))}
