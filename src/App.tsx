@@ -13,6 +13,7 @@ import { MobileControls } from './components/UI/MobileControls';
 import { GameOver } from './components/UI/GameOver';
 import { AudioController } from './components/AudioController';
 import { Loader } from '@react-three/drei';
+import * as THREE from 'three';
 
 function App() {
   return (
@@ -20,7 +21,13 @@ function App() {
       <Suspense fallback={null}>
         <Canvas
           shadows
-          gl={{ antialias: false, stencil: false, powerPreference: 'high-performance' }}
+          gl={{
+            antialias: false,
+            stencil: false,
+            powerPreference: 'high-performance',
+            toneMapping: THREE.NoToneMapping,
+            logarithmicDepthBuffer: true
+          }}
           dpr={[1, 2]}
         >
           <GameScene />

@@ -2,10 +2,10 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
 export const Effects = () => {
   return (
-    <EffectComposer multisampling={4}>
+    <EffectComposer multisampling={0}>
       <Bloom
-        intensity={0.4}
-        luminanceThreshold={0.8}
+        intensity={0.3}
+        luminanceThreshold={1.0}
         luminanceSmoothing={0.9}
       />
     </EffectComposer>

@@ -130,7 +130,7 @@ export const Player = () => {
 
       {/* Jump Burst Effect */}
       {isJumping && (
-        <pointLight position={[0, 1, 0]} intensity={20} color="#00ffff" distance={10} decay={2} />
+        <pointLight position={[0, 1, 0]} intensity={5} color="#00ffff" distance={10} decay={2} />
       )}
 
       <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>

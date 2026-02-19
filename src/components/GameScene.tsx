@@ -1,23 +1,13 @@
 import { Stars, PerspectiveCamera, Environment } from '@react-three/drei';
+import { Lights } from './Lights';
 
 export const GameScene = () => {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 5, 15]} fov={75} />
-      <ambientLight intensity={0.4} />
-      {/* Changed color from magenta to deep blue/purple */}
-      <pointLight position={[10, 10, 10]} intensity={2} color="#0066ff" />
-      <pointLight position={[-10, 10, 10]} intensity={2} color="#00ffff" />
-      <spotLight
-        position={[0, 25, 0]}
-        angle={0.4}
-        penumbra={1}
-        intensity={3}
-        castShadow
-        color="#ffffff"
-      />
+      <PerspectiveCamera makeDefault position={[0, 5, 15]} fov={75} near={0.1} far={1000} />
+      <Lights />
 
-      <Stars radius={200} depth={100} count={3000} factor={4} saturation={1} fade speed={2} />
+      <Stars radius={300} depth={50} count={1000} factor={4} saturation={0} fade speed={1} />
 
       <Environment preset="night" />
       {/* Increased fog distance for better visibility */}
