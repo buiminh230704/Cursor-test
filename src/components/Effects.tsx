@@ -1,14 +1,13 @@
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
 export const Effects = () => {
   return (
     <EffectComposer multisampling={0}>
       <Bloom
-        intensity={0.4}
-        luminanceThreshold={0.8}
+        intensity={0.3}
+        luminanceThreshold={0.9}
         luminanceSmoothing={0.9}
       />
-      <Vignette eskil={false} offset={0.1} darkness={1.1} />
     </EffectComposer>
   );
 };

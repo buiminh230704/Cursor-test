@@ -18,7 +18,11 @@ function App() {
   return (
     <div className="w-full h-screen bg-black overflow-hidden relative">
       <Suspense fallback={null}>
-        <Canvas shadows>
+        <Canvas
+          shadows
+          gl={{ antialias: false, stencil: false, powerPreference: 'high-performance' }}
+          dpr={[1, 2]}
+        >
           <GameScene />
           <Track />
           <Player />
