@@ -53,7 +53,7 @@ export const HUD = () => {
         </div>
         <div className="w-48 h-2 bg-white/10 rounded-full overflow-hidden border border-white/20">
           <div
-            className={`h-full transition-all duration-300 ${isSuper ? 'bg-orange-400' : 'bg-yellow-400'}`}
+            className={`h-full transition-all duration-300 ${isSuper ? 'bg-orange-400' : 'bg-fuchsia-500'}`}
             style={{ width: `${charge}%` }}
           />
         </div>
