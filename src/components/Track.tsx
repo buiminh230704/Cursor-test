@@ -41,15 +41,6 @@ export const Track = () => {
 };
 
 const TrackSegment = ({ position }: { position: [number, number, number] }) => {
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
-
-  useFrame((state) => {
-    if (materialRef.current) {
-      const pulse = Math.sin(state.clock.elapsedTime * 2.5) * 0.2 + 0.8;
-      materialRef.current.emissiveIntensity = pulse * 2;
-    }
-  });
-
   return (
     <group position={position}>
       {/* Decorative City Pillars - Left */}
@@ -103,7 +94,7 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
       {/* Lane Dividers */}
       <mesh position={[-5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial ref={materialRef} color="#000" emissive="#0066ff" emissiveIntensity={1} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={1.5} />
       </mesh>
       <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />

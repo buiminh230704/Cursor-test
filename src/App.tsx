@@ -12,7 +12,6 @@ import { HUD } from './components/UI/HUD';
 import { MobileControls } from './components/UI/MobileControls';
 import { GameOver } from './components/UI/GameOver';
 import { AudioController } from './components/AudioController';
-import { Loader } from '@react-three/drei';
 import * as THREE from 'three';
 
 function App() {
@@ -20,15 +19,13 @@ function App() {
     <div className="w-full h-screen bg-black overflow-hidden relative">
       <Suspense fallback={null}>
         <Canvas
-          shadows
           gl={{
             antialias: false,
             stencil: false,
             powerPreference: 'high-performance',
-            toneMapping: THREE.NoToneMapping,
-            logarithmicDepthBuffer: true
+            toneMapping: THREE.NoToneMapping
           }}
-          dpr={[1, 2]}
+          dpr={1}
         >
           <GameScene />
           <Track />
@@ -40,7 +37,6 @@ function App() {
         </Canvas>
       </Suspense>
 
-      <Loader />
       <AudioController />
       <MainMenu />
       <HUD />

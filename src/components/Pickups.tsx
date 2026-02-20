@@ -2,7 +2,7 @@ import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGameStore } from '../store/useGameStore';
 import * as THREE from 'three';
-import { Float, Sparkles } from '@react-three/drei';
+import { Float } from '@react-three/drei';
 
 const PICKUPS_COUNT = 10;
 const DISTANCE = 120;
@@ -70,7 +70,6 @@ export const Pickups = () => {
                 emissiveIntensity={4}
               />
             </mesh>
-            <Sparkles count={10} scale={2} size={2} color="#ff00ff" />
           </Float>
         </group>
       ))}

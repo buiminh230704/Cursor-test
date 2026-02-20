@@ -6,7 +6,7 @@ export const HUD = () => {
   if (status !== 'PLAYING') return null;
 
   return (
-    <div className="absolute top-0 left-0 w-full p-4 md:p-8 flex justify-between items-start text-white z-10 pointer-events-none">
+    <div className="absolute top-0 left-0 w-full p-4 md:p-8 flex justify-between items-start text-cyan-100 z-10 pointer-events-none">
       <div className="flex flex-col gap-2 md:gap-4">
         <div>
           <div className="text-[10px] md:text-xs opacity-50 font-bold tracking-widest uppercase mb-1">Distance</div>
@@ -48,7 +48,7 @@ export const HUD = () => {
 
       {/* Charge Meter - Center Bottom */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-        <div className={`text-[10px] uppercase font-black mb-2 tracking-widest ${isSuper ? 'text-orange-400 animate-pulse' : 'text-white opacity-50'}`}>
+        <div className={`text-[10px] uppercase font-black mb-2 tracking-widest ${isSuper ? 'text-orange-400 animate-pulse' : 'text-cyan-400 opacity-50'}`}>
           {isSuper ? 'HYPER DRIVE ACTIVE' : 'Sync Charge'}
         </div>
         <div className="w-48 h-2 bg-white/10 rounded-full overflow-hidden border border-white/20">

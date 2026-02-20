@@ -1,7 +1,7 @@
 import { useRef, useEffect, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGameStore } from '../store/useGameStore';
-import { Trail, Float } from '@react-three/drei';
+import { Trail } from '@react-three/drei';
 import * as THREE from 'three';
 
 const LANE_POSITIONS = [-7.5, -2.5, 2.5, 7.5];
@@ -124,9 +124,7 @@ export const Player = () => {
 
   return (
     <group ref={meshRef} name="player">
-
-      <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>
-        <group ref={shipRef}>
+      <group ref={shipRef}>
           {/* Main Hull - More Colorful */}
           <mesh castShadow>
             <boxGeometry args={[0.8, 0.5, 4]} />
@@ -142,7 +140,7 @@ export const Player = () => {
           {/* Hull Racing Stripe */}
           <mesh position={[0, 0.26, 0]}>
             <boxGeometry args={[0.2, 0.01, 3.8]} />
-            <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={2} />
+            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={1.5} />
           </mesh>
 
           {/* Wings - Swept Back & Brighter */}
@@ -190,15 +188,6 @@ export const Player = () => {
               <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
             </mesh>
 
-            {/* Secondary Inner Glow */}
-            <mesh position={[-0.7, 0, 0.62]} rotation={[Math.PI / 2, 0, 0]}>
-              <circleGeometry args={[0.1]} />
-              <meshBasicMaterial color="#ffffff" />
-            </mesh>
-            <mesh position={[0.7, 0, 0.62]} rotation={[Math.PI / 2, 0, 0]}>
-              <circleGeometry args={[0.1]} />
-              <meshBasicMaterial color="#ffffff" />
-            </mesh>
           </group>
 
           {/* Cockpit - Aerodynamics */}
@@ -221,8 +210,7 @@ export const Player = () => {
           >
             <mesh position={[0, 0, 2]} />
           </Trail>
-        </group>
-      </Float>
+      </group>
     </group>
   );
 };
