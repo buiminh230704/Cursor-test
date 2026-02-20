@@ -14,9 +14,7 @@ export const Lights = () => {
 
   return (
     <group ref={groupRef}>
-      <ambientLight intensity={0.4} />
-      <pointLight position={[20, 20, 20]} intensity={1} color="#0066ff" />
-      <pointLight position={[-20, 20, 20]} intensity={1} color="#00ffff" />
+      <ambientLight intensity={0.6} />
 
       <directionalLight
         position={[0, 40, 20]}

@@ -124,14 +124,6 @@ export const Player = () => {
 
   return (
     <group ref={meshRef} name="player">
-      {/* Ship Lighting - Makes it pop in the dark */}
-      <pointLight position={[0, 2, 0]} intensity={5} color="#00ffff" distance={10} />
-      <pointLight position={[0, -1, -2]} intensity={2} color="#ffffff" distance={5} />
-
-      {/* Jump Burst Effect */}
-      {isJumping && (
-        <pointLight position={[0, 1, 0]} intensity={5} color="#00ffff" distance={10} decay={2} />
-      )}
 
       <Float speed={3} rotationIntensity={0.6} floatIntensity={0.6}>
         <group ref={shipRef}>
@@ -141,7 +133,7 @@ export const Player = () => {
             <meshStandardMaterial
               color={isSuper ? "#ffaa00" : "#00bbff"}
               emissive={isSuper ? "#ffaa00" : "#0066ff"}
-              emissiveIntensity={isSuper ? 3 : 1.5}
+              emissiveIntensity={isSuper ? 1.5 : 0.5}
               metalness={1}
               roughness={0.1}
             />
@@ -188,14 +180,14 @@ export const Player = () => {
               <meshStandardMaterial color="#222" metalness={1} roughness={0.3} />
             </mesh>
 
-            {/* Dual Thruster Glow - Pulsing Effect via intensity */}
+            {/* Dual Thruster Glow - Reduced intensity */}
             <mesh position={[-0.7, 0, 0.6]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[0.22, 0.18, 0.1, 16]} />
-              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={30} />
+              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
             </mesh>
             <mesh position={[0.7, 0, 0.6]} rotation={[Math.PI / 2, 0, 0]}>
               <cylinderGeometry args={[0.22, 0.18, 0.1, 16]} />
-              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={30} />
+              <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
             </mesh>
 
             {/* Secondary Inner Glow */}
@@ -209,16 +201,16 @@ export const Player = () => {
             </mesh>
           </group>
 
-          {/* Cockpit - Enhanced Aerodynamics */}
+          {/* Cockpit - Aerodynamics */}
           <mesh position={[0, 0.35, -0.6]} rotation={[Math.PI / 2.2, 0, 0]}>
             <cylinderGeometry args={[0.05, 0.4, 1.8, 4]} />
-            <meshStandardMaterial color="#050505" emissive="#00ffff" emissiveIntensity={8} transparent opacity={0.9} roughness={0} metalness={1} />
+            <meshStandardMaterial color="#050505" emissive="#00ffff" emissiveIntensity={2} transparent opacity={0.9} roughness={0} metalness={1} />
           </mesh>
 
-          {/* Tail Fin - Brighter */}
+          {/* Tail Fin */}
           <mesh position={[0, 0.6, 1.5]}>
             <boxGeometry args={[0.05, 0.8, 1]} />
-            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={2} />
+            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={1} />
           </mesh>
 
           <Trail

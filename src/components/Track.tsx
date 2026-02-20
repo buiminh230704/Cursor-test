@@ -103,15 +103,15 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
       {/* Lane Dividers */}
       <mesh position={[-5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial ref={materialRef} color="#000" emissive="#0066ff" emissiveIntensity={2} />
+        <meshStandardMaterial ref={materialRef} color="#000" emissive="#0066ff" emissiveIntensity={1} />
       </mesh>
       <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={2} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={1} />
       </mesh>
       <mesh position={[5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={2} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={1} />
       </mesh>
 
       {/* Correctly scaled grid to cover full segment */}
@@ -131,11 +131,11 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
       {/* Side Rails */}
       <mesh position={[-11.5, 0.8, 0]}>
         <boxGeometry args={[0.4, 2, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={2} />
       </mesh>
       <mesh position={[11.5, 0.8, 0]}>
         <boxGeometry args={[0.4, 2, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={2} />
       </mesh>
     </group>
   );

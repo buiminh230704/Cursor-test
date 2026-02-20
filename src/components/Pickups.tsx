@@ -67,7 +67,7 @@ export const Pickups = () => {
               <meshStandardMaterial
                 color="#ff00ff"
                 emissive="#ff00ff"
-                emissiveIntensity={15}
+                emissiveIntensity={4}
               />
             </mesh>
             <Sparkles count={10} scale={2} size={2} color="#ff00ff" />
