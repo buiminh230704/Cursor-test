@@ -67,7 +67,7 @@ export const Pickups = () => {
               <meshStandardMaterial
                 color="#ff00ff"
                 emissive="#ff00ff"
-                emissiveIntensity={15}
+                emissiveIntensity={5}
               />
             </mesh>
           </Float>

@@ -115,7 +115,7 @@ export const Obstacles = () => {
           <meshStandardMaterial
             color="#050505"
             emissive={data.color}
-            emissiveIntensity={20}
+            emissiveIntensity={8}
             metalness={1}
             roughness={0}
           />
