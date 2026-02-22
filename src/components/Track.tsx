@@ -86,24 +86,24 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
         <planeGeometry args={[24, 200]} />
         <meshStandardMaterial
           color="#000005"
-          roughness={0.0}
+          roughness={0.1}
           metalness={1}
-          envMapIntensity={2}
+          envMapIntensity={1}
         />
       </mesh>
 
       {/* Lane Dividers */}
       <mesh position={[-5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={10} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={5} />
       </mesh>
       <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={10} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={5} />
       </mesh>
       <mesh position={[5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={10} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={5} />
       </mesh>
 
       {/* Correctly scaled grid to cover full segment */}
@@ -123,11 +123,11 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
       {/* Side Rails */}
       <mesh position={[-11.5, 0.8, 0]}>
         <boxGeometry args={[0.4, 2, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={20} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
       </mesh>
       <mesh position={[11.5, 0.8, 0]}>
         <boxGeometry args={[0.4, 2, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={20} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={10} />
       </mesh>
     </group>
   );

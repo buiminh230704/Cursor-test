@@ -131,7 +131,7 @@ export const Player = () => {
             <meshStandardMaterial
               color={isSuper ? "#ffaa00" : "#00bbff"}
               emissive={isSuper ? "#ffaa00" : "#0066ff"}
-              emissiveIntensity={isSuper ? 10 : 3}
+              emissiveIntensity={isSuper ? 6 : 2}
               metalness={1}
               roughness={0.1}
             />
@@ -140,7 +140,7 @@ export const Player = () => {
           {/* Hull Racing Stripe */}
           <mesh position={[0, 0.26, 0]}>
             <boxGeometry args={[0.2, 0.01, 3.8]} />
-            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={10} />
+            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={5} />
           </mesh>
 
           {/* Wings - Swept Back */}
@@ -148,22 +148,22 @@ export const Player = () => {
             {/* Left Wing */}
             <mesh position={[-1.2, 0, 0.5]} rotation={[0, -0.4, 0]}>
               <boxGeometry args={[2, 0.1, 1.5]} />
-              <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={6} metalness={0.8} />
+              <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={4} metalness={0.8} />
             </mesh>
             {/* Right Wing */}
             <mesh position={[1.2, 0, 0.5]} rotation={[0, 0.4, 0]}>
               <boxGeometry args={[2, 0.1, 1.5]} />
-              <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={6} metalness={0.8} />
+              <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={4} metalness={0.8} />
             </mesh>
 
             {/* Wing Tip Lights */}
             <mesh position={[-2.1, 0, 1]} rotation={[0, -0.4, 0]}>
               <sphereGeometry args={[0.1, 8, 8]} />
-              <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={15} />
+              <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={8} />
             </mesh>
             <mesh position={[2.1, 0, 1]} rotation={[0, 0.4, 0]}>
               <sphereGeometry args={[0.1, 8, 8]} />
-              <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={15} />
+              <meshStandardMaterial color="#ff00ff" emissive="#ff00ff" emissiveIntensity={8} />
             </mesh>
           </group>
 
@@ -199,7 +199,7 @@ export const Player = () => {
           {/* Tail Fin */}
           <mesh position={[0, 0.6, 1.5]}>
             <boxGeometry args={[0.05, 0.8, 1]} />
-            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={10} />
+            <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={5} />
           </mesh>
 
           <Trail
