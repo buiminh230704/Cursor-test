@@ -85,24 +85,25 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[24, 200]} />
         <meshStandardMaterial
-          color="#000000"
-          roughness={0.01}
+          color="#000005"
+          roughness={0.0}
           metalness={1}
+          envMapIntensity={2}
         />
       </mesh>
 
       {/* Lane Dividers */}
       <mesh position={[-5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={4} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={10} />
       </mesh>
       <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={4} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={10} />
       </mesh>
       <mesh position={[5.5, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[0.1, 200]} />
-        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={4} />
+        <meshStandardMaterial color="#000" emissive="#0066ff" emissiveIntensity={10} />
       </mesh>
 
       {/* Correctly scaled grid to cover full segment */}
@@ -116,17 +117,17 @@ const TrackSegment = ({ position }: { position: [number, number, number] }) => {
       {/* Additional Glow Floor for depth */}
       <mesh position={[0, -0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[26, 200]} />
-        <meshStandardMaterial color="#000" emissive="#001133" emissiveIntensity={0.5} transparent opacity={0.5} />
+        <meshStandardMaterial color="#000" emissive="#001133" emissiveIntensity={1} transparent opacity={0.5} />
       </mesh>
 
       {/* Side Rails */}
       <mesh position={[-11.5, 0.8, 0]}>
         <boxGeometry args={[0.4, 2, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={8} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={20} />
       </mesh>
       <mesh position={[11.5, 0.8, 0]}>
         <boxGeometry args={[0.4, 2, 200]} />
-        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={8} />
+        <meshStandardMaterial color="#000" emissive="#00ffff" emissiveIntensity={20} />
       </mesh>
     </group>
   );
